@@ -19,27 +19,37 @@ export default function Projects({ t }: { t: ContentType['projects'] }) {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          {/* CARD 1: FLEET MANAGER (Link Atualizado para a pasta do Backend) */}
           <ProjectCard 
             icon={<Server size={100} className="text-emerald-500 rotate-12 group-hover:rotate-0 transition-transform duration-500"/>}
             smallIcon={<Database size={28} className="text-emerald-400"/>}
             title={t.p1.title} desc={t.p1.desc} btn={t.p1.btn}
             tags={['.NET 9', 'Docker', 'PostgreSQL']}
-            color="emerald" link="https://github.com/SamuelAlexandrinoCodes/XP-FULLSTACK"
+            color="emerald" 
+            link="https://github.com/SamuelAlexandrinoCodes/XP-FULLSTACK/tree/main/1-Backend/vehicle-management-api"
           />
+
+          {/* CARD 2: BLOG SECURE (Link Atualizado para a pasta do Blog) */}
           <ProjectCard 
             icon={<Code2 size={100} className="text-blue-500 -rotate-12 group-hover:rotate-0 transition-transform duration-500"/>}
             smallIcon={<Terminal size={28} className="text-blue-400"/>}
             title={t.p2.title} desc={t.p2.desc} btn={t.p2.btn}
             tags={['Next.js', 'Supabase', 'RLS']}
-            color="blue" link="https://github.com/SamuelAlexandrinoCodes?tab=repositories"
+            color="blue" 
+            link="https://github.com/SamuelAlexandrinoCodes/XP-FULLSTACK/tree/main/5-Fullstack/blog-next-supabase"
           />
+
+          {/* CARD 3: ML OPTIMIZER (Link de Precisão) */}
           <ProjectCard 
             icon={<Database size={100} className="text-purple-500 rotate-6 group-hover:rotate-0 transition-transform duration-500"/>}
             smallIcon={<Server size={28} className="text-purple-400"/>}
             title={t.p3.title} desc={t.p3.desc} btn={t.p3.btn}
             tags={['C# Core', 'Math', 'Algorithms']}
-            color="purple" link="https://github.com/SamuelAlexandrinoCodes/ProjetosAI"
+            color="purple" 
+            link="https://github.com/SamuelAlexandrinoCodes/ProjetosAI/tree/main/1-Foundations-CSharp/multivariate-optimizer"
           />
+          
         </div>
       </motion.div>
     </section>
@@ -54,7 +64,8 @@ function ProjectCard({ icon, smallIcon, title, desc, tags, color, link, btn }: a
     }
 
     return (
-        <div className={`group relative bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition-all hover:shadow-2xl p-8 flex flex-col min-h-[400px] ${colorClasses[color].split(' ')[0]} ${colorClasses[color].split(' ')[1]}`}>
+        <div className={`group relative bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition-all hover:shadow-2xl p-8 flex flex-col min-h-[400px] cursor-pointer ${colorClasses[color].split(' ')[0]} ${colorClasses[color].split(' ')[1]}`}
+             onClick={() => window.open(link, '_blank')}>
             <div className="absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-100 transition-opacity">{icon}</div>
             <div className="mb-6 relative z-10">
                 <div className={`p-3 bg-slate-800 w-fit rounded-xl mb-6 transition-colors ${colorClasses[color].split(' ')[3]}`}>{smallIcon}</div>
@@ -67,9 +78,9 @@ function ProjectCard({ icon, smallIcon, title, desc, tags, color, link, btn }: a
                         <span key={tag} className={`px-3 py-1 bg-slate-950 text-xs rounded-full font-mono border ${colorClasses[color].split(' ').slice(4).join(' ')}`}>{tag}</span>
                     ))}
                 </div>
-                <a href={link} target="_blank" className={`inline-flex items-center gap-2 text-sm font-bold text-white transition-colors ${colorClasses[color].split(' ')[2]}`}>
+                <span className={`inline-flex items-center gap-2 text-sm font-bold text-white transition-colors ${colorClasses[color].split(' ')[2]}`}>
                     <Github size={18}/> {btn}
-                </a>
+                </span>
             </div>
         </div>
     )
