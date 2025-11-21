@@ -26,14 +26,14 @@ export const metadata: Metadata = {
     title: "Samuel Alexandrino | Construindo Arquiteturas Escaláveis",
     description: "Engenheiro de Software focado em .NET e IA. Transformo requisitos complexos em sistemas robustos.",
     siteName: "Samuel Alexandrino Portfolio",
-    // images: [
-    //   {
-    //     url: "/og-image.png", // Vamos criar isso depois
-    //     width: 1200,
-    //     height: 630,
-    //     alt: "Samuel Alexandrino Portfolio",
-    //   },
-    // ],
+     images: [
+       {
+         url: "/og-image.png", 
+         width: 1200,
+         height: 630,
+         alt: "Samuel Alexandrino - Engenheiro de Software",
+       },
+     ],
   },
   
   // Configuração para Twitter/X
