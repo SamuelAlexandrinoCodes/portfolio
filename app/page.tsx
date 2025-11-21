@@ -5,44 +5,134 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github, Linkedin, Terminal, ArrowRight, Code2, Server, Database, ArrowUp } from 'lucide-react';
 
+// --- 1. MOTOR DE TRADUÇÃO (Dicionário de Conteúdo) ---
+const CONTENT = {
+  pt: {
+    nav: { work: "Disponível para trabalho" },
+    hero: {
+      badge: "Disponível para projetos",
+      title_1: "Construindo Arquiteturas",
+      title_2: "Escaláveis & Inteligentes.",
+      description: "Engenheiro de Software focado em <b class='text-emerald-400'>.NET</b> e <b class='text-emerald-400'>Inteligência Artificial</b>. Transformo requisitos complexos em sistemas robustos, seguros e performáticos.",
+      btn_projects: "Ver Projetos",
+      btn_github: "GitHub Arsenal"
+    },
+    tech: { title: "ARSENAL TÉCNICO" },
+    projects: {
+      title: "Projetos de Engenharia",
+      subtitle: "Sistemas focados em performance, segurança e escalabilidade.",
+      view_archive: "Ver Arquivo Completo",
+      p1: {
+        title: "Fleet Manager API",
+        desc: "API REST completa para gestão de frotas. Arquitetura limpa com foco em segurança e performance. Implementa autenticação JWT e controle de acesso granular (RBAC).",
+        btn: "Acessar Repositório"
+      },
+      p2: {
+        title: "Secure Blog Platform",
+        desc: "Sistema Fullstack com foco em segurança defensiva. Utiliza Row Level Security (RLS) no banco de dados para garantir isolamento de dados por usuário.",
+        btn: "Acessar Código"
+      },
+      p3: {
+        title: "ML Gradient Optimizer",
+        desc: "Implementação pura de algoritmos de Machine Learning (Descida do Gradiente) e normalização matemática (Z-Score) usando C# sem bibliotecas externas.",
+        btn: "Ver Algoritmo"
+      }
+    }
+  },
+  en: {
+    nav: { work: "Available for work" },
+    hero: {
+      badge: "Available for work",
+      title_1: "Building Scalable",
+      title_2: "& Intelligent Architectures.",
+      description: "Software Engineer focused on <b class='text-emerald-400'>.NET</b> and <b class='text-emerald-400'>Artificial Intelligence</b>. I transform complex requirements into robust, secure, and high-performance systems.",
+      btn_projects: "View Projects",
+      btn_github: "GitHub Arsenal"
+    },
+    tech: { title: "TECH ARSENAL" },
+    projects: {
+      title: "Engineering Projects",
+      subtitle: "Systems focused on performance, security, and scalability.",
+      view_archive: "View Full Archive",
+      p1: {
+        title: "Fleet Manager API",
+        desc: "Complete REST API for fleet management. Clean Architecture focused on security and performance. Implements JWT authentication and granular access control (RBAC).",
+        btn: "Access Repository"
+      },
+      p2: {
+        title: "Secure Blog Platform",
+        desc: "Fullstack system focused on defensive security. Uses Row Level Security (RLS) in the database to ensure user data isolation.",
+        btn: "Access Code"
+      },
+      p3: {
+        title: "ML Gradient Optimizer",
+        desc: "Pure implementation of Machine Learning algorithms (Gradient Descent) and mathematical normalization (Z-Score) using C# without external libraries.",
+        btn: "View Algorithm"
+      }
+    }
+  }
+};
+
 export default function Home() {
-  // --- LÓGICA DO BOTÃO DE SCROLL ---
+  // --- ESTADOS ---
+  const [lang, setLang] = useState<'pt' | 'en'>('pt');
   const [showScrollBtn, setShowScrollBtn] = useState(false);
+  
+  const t = CONTENT[lang];
+  const toggleLang = () => setLang(prev => prev === 'pt' ? 'en' : 'pt');
 
   useEffect(() => {
-    const handleScroll = () => {
-        if (window.scrollY > 400) {
-            setShowScrollBtn(true);
-        } else {
-            setShowScrollBtn(false);
-        }
-    };
+    const handleScroll = () => { setShowScrollBtn(window.scrollY > 400); };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <main className="bg-slate-950 text-slate-200 selection:bg-emerald-500/30 relative overflow-x-hidden">
+    <main className="bg-slate-950 text-slate-200 selection:bg-emerald-500/30 relative overflow-x-hidden font-sans">
       
       {/* NAVBAR */}
-      <nav className="fixed top-0 w-full z-50 border-b border-white/5 bg-slate-950/80 backdrop-blur-xl">
+      <nav className="fixed top-0 w-full z-50 border-b border-white/5 bg-slate-950/80 backdrop-blur-xl transition-all">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <span 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="font-mono text-emerald-400 font-bold text-lg cursor-pointer"
+            className="font-mono text-emerald-400 font-bold text-lg cursor-pointer hover:tracking-widest transition-all"
           >
             &lt;Samuel /&gt;
           </span>
-          <div className="flex gap-4">
-            <a href="https://github.com/SamuelAlexandrinoCodes" target="_blank" className="hover:text-emerald-400 transition-colors"><Github size={20} /></a>
-            <a href="https://www.linkedin.com/in/samuel-alexandrino-de-oliveira-81183b2a7/" target="_blank" className="hover:text-blue-400 transition-colors"><Linkedin size={20} /></a>
+          
+          <div className="flex items-center gap-6">
+            
+            {/* LANGUAGE TOGGLE TÁTICO */}
+            <button 
+              onClick={toggleLang}
+              className="flex items-center gap-3 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 hover:border-emerald-500/50 transition-all cursor-pointer group"
+              title="Switch Language / Trocar Idioma"
+            >
+              {/* Lado BR */}
+              <span className={`text-xs font-bold font-mono transition-all ${lang === 'pt' ? 'text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]' : 'text-slate-600 group-hover:text-slate-500'}`}>
+                BR
+              </span>
+              
+              {/* Separador Vertical */}
+              <div className="h-3 w-px bg-slate-700"></div>
+
+              {/* Lado EN */}
+              <span className={`text-xs font-bold font-mono transition-all ${lang === 'en' ? 'text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]' : 'text-slate-600 group-hover:text-slate-500'}`}>
+                EN
+              </span>
+            </button>
+
+            <div className="h-4 w-px bg-slate-800 hidden sm:block"></div>
+
+            <div className="flex gap-4">
+              <a href="https://github.com/SamuelAlexandrinoCodes" target="_blank" className="hover:text-emerald-400 transition-colors"><Github size={20} /></a>
+              <a href="https://www.linkedin.com/in/samuel-alexandrino-de-oliveira-81183b2a7/" target="_blank" className="hover:text-blue-400 transition-colors"><Linkedin size={20} /></a>
+            </div>
           </div>
         </div>
       </nav>
 
-      {/* ========================================== */}
-      {/* BLOCO 1: HERO SECTION (TEXTO + FOTO)       */}
-      {/* ========================================== */}
+      {/* BLOCO 1: HERO SECTION */}
       <section className="max-w-6xl mx-auto px-6 pt-40 pb-20 md:pt-48">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           
@@ -58,30 +148,29 @@ export default function Home() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
-                Available for work
+                {t.hero.badge}
               </motion.div>
 
               <motion.h1 
-                initial={{ opacity: 0, y: 20 }}
+                key={lang} 
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
+                transition={{ duration: 0.5 }}
                 className="text-4xl md:text-6xl font-bold tracking-tight text-white mb-6 leading-tight"
               >
-                Construindo Arquiteturas <br />
+                {t.hero.title_1} <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
-                  Escaláveis & Inteligentes.
+                  {t.hero.title_2}
                 </span>
               </motion.h1>
 
-              <motion.p 
+              <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="text-lg text-slate-400 max-w-xl mb-10 leading-relaxed"
-              >
-                Engenheiro de Software focado em <b>.NET</b> e <b>Inteligência Artificial</b>. 
-                Transformo requisitos complexos em sistemas robustos, seguros e performáticos.
-              </motion.p>
+                dangerouslySetInnerHTML={{ __html: t.hero.description }} 
+              />
 
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
@@ -90,17 +179,17 @@ export default function Home() {
                 className="flex flex-wrap gap-4"
               >
                 <a href="#projetos" className="group relative px-6 py-3 bg-emerald-500 text-slate-950 font-bold rounded-lg hover:bg-emerald-400 transition-all flex items-center gap-2">
-                  Ver Projetos
+                  {t.hero.btn_projects}
                   <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform"/>
                 </a>
                 <a href="https://github.com/SamuelAlexandrinoCodes" target="_blank" className="px-6 py-3 border border-slate-700 text-slate-300 rounded-lg hover:border-slate-500 hover:bg-slate-900 transition-all flex items-center gap-2">
                   <Github size={18} />
-                  GitHub Arsenal
+                  {t.hero.btn_github}
                 </a>
               </motion.div>
           </div>
 
-          {/* FOTO (Agora com container fixo para não esmagar) */}
+          {/* FOTO */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -122,9 +211,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ========================================== */}
-      {/* BLOCO 2: TECH ARSENAL (SEPARADO)           */}
-      {/* ========================================== */}
+      {/* BLOCO 2: TECH ARSENAL */}
       <section className="max-w-6xl mx-auto px-6 mb-32">
         <motion.div 
           initial={{ opacity: 0 }}
@@ -132,27 +219,25 @@ export default function Home() {
           viewport={{ once: true }}
           className="border-t border-slate-800 pt-10"
         >
-          <p className="text-slate-500 text-sm font-mono mb-6">TECH ARSENAL</p>
+          <p className="text-slate-500 text-sm font-mono mb-6">{t.tech.title}</p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="flex items-center gap-3 text-slate-300 bg-slate-900/30 p-3 rounded-lg border border-slate-800/50">
+            <div className="flex items-center gap-3 text-slate-300 bg-slate-900/30 p-3 rounded-lg border border-slate-800/50 hover:border-purple-500/30 transition-colors">
               <Terminal size={24} className="text-purple-400"/> <span className="font-bold">C# / .NET 9</span>
             </div>
-            <div className="flex items-center gap-3 text-slate-300 bg-slate-900/30 p-3 rounded-lg border border-slate-800/50">
+            <div className="flex items-center gap-3 text-slate-300 bg-slate-900/30 p-3 rounded-lg border border-slate-800/50 hover:border-yellow-500/30 transition-colors">
               <Code2 size={24} className="text-yellow-400"/> <span className="font-bold">Python & AI</span>
             </div>
-            <div className="flex items-center gap-3 text-slate-300 bg-slate-900/30 p-3 rounded-lg border border-slate-800/50">
+            <div className="flex items-center gap-3 text-slate-300 bg-slate-900/30 p-3 rounded-lg border border-slate-800/50 hover:border-blue-500/30 transition-colors">
               <Server size={24} className="text-blue-400"/> <span className="font-bold">Docker & Cloud</span>
             </div>
-            <div className="flex items-center gap-3 text-slate-300 bg-slate-900/30 p-3 rounded-lg border border-slate-800/50">
+            <div className="flex items-center gap-3 text-slate-300 bg-slate-900/30 p-3 rounded-lg border border-slate-800/50 hover:border-emerald-500/30 transition-colors">
               <Database size={24} className="text-emerald-400"/> <span className="font-bold">SQL & NoSQL</span>
             </div>
           </div>
         </motion.div>
       </section>
 
-      {/* ========================================== */}
-      {/* BLOCO 3: PROJETOS (SEPARADO)               */}
-      {/* ========================================== */}
+      {/* BLOCO 3: PROJETOS */}
       <section id="projetos" className="max-w-6xl mx-auto px-6 pb-40">
         <motion.div 
           initial={{ opacity: 0, y: 40 }}
@@ -162,11 +247,11 @@ export default function Home() {
         >
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-100 mb-3">Projetos de Engenharia</h2>
-              <p className="text-slate-400 text-lg">Sistemas focados em performance, segurança e escalabilidade.</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-100 mb-3">{t.projects.title}</h2>
+              <p className="text-slate-400 text-lg">{t.projects.subtitle}</p>
             </div>
             <a href="https://github.com/SamuelAlexandrinoCodes?tab=repositories" target="_blank" className="hidden md:flex items-center gap-2 text-emerald-400 hover:text-emerald-300 transition-colors font-mono border border-emerald-500/20 px-4 py-2 rounded-full hover:bg-emerald-500/10">
-              View Full Archive <ArrowRight size={16}/>
+              {t.projects.view_archive} <ArrowRight size={16}/>
             </a>
           </div>
 
@@ -181,10 +266,8 @@ export default function Home() {
                 <div className="p-3 bg-slate-800 w-fit rounded-xl mb-6 group-hover:bg-emerald-500/20 transition-colors">
                   <Database size={28} className="text-emerald-400"/>
                 </div>
-                <h3 className="text-2xl font-bold text-slate-100 mb-3">Fleet Manager API</h3>
-                <p className="text-slate-400 leading-relaxed">
-                  API REST completa para gestão de frotas. Arquitetura limpa com foco em segurança e performance. Implementa autenticação JWT e controle de acesso granular (RBAC).
-                </p>
+                <h3 className="text-2xl font-bold text-slate-100 mb-3">{t.projects.p1.title}</h3>
+                <p className="text-slate-400 leading-relaxed">{t.projects.p1.desc}</p>
               </div>
               <div className="mt-auto relative z-10">
                 <div className="flex flex-wrap gap-2 mb-8">
@@ -193,7 +276,7 @@ export default function Home() {
                   <span className="px-3 py-1 bg-slate-950 text-slate-300 text-xs rounded-full font-mono border border-slate-700">PostgreSQL</span>
                 </div>
                 <a href="https://github.com/SamuelAlexandrinoCodes/XP-FULLSTACK" target="_blank" className="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-emerald-400 transition-colors">
-                  <Github size={18}/> Acessar Repositório
+                  <Github size={18}/> {t.projects.p1.btn}
                 </a>
               </div>
             </div>
@@ -207,10 +290,8 @@ export default function Home() {
                 <div className="p-3 bg-slate-800 w-fit rounded-xl mb-6 group-hover:bg-blue-500/20 transition-colors">
                   <Terminal size={28} className="text-blue-400"/>
                 </div>
-                <h3 className="text-2xl font-bold text-slate-100 mb-3">Secure Blog Platform</h3>
-                <p className="text-slate-400 leading-relaxed">
-                  Sistema Fullstack com foco em segurança defensiva. Utiliza Row Level Security (RLS) no banco de dados para garantir isolamento de dados por usuário.
-                </p>
+                <h3 className="text-2xl font-bold text-slate-100 mb-3">{t.projects.p2.title}</h3>
+                <p className="text-slate-400 leading-relaxed">{t.projects.p2.desc}</p>
               </div>
               <div className="mt-auto relative z-10">
                 <div className="flex flex-wrap gap-2 mb-8">
@@ -219,7 +300,7 @@ export default function Home() {
                   <span className="px-3 py-1 bg-slate-950 text-emerald-400 text-xs rounded-full font-mono border border-emerald-900">RLS</span>
                 </div>
                 <a href="https://github.com/SamuelAlexandrinoCodes?tab=repositories" target="_blank" className="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-blue-400 transition-colors">
-                  <Github size={18}/> Acessar Código
+                  <Github size={18}/> {t.projects.p2.btn}
                 </a>
               </div>
             </div>
@@ -233,10 +314,8 @@ export default function Home() {
                 <div className="p-3 bg-slate-800 w-fit rounded-xl mb-6 group-hover:bg-purple-500/20 transition-colors">
                   <Server size={28} className="text-purple-400"/>
                 </div>
-                <h3 className="text-2xl font-bold text-slate-100 mb-3">ML Optimizer</h3>
-                <p className="text-slate-400 leading-relaxed">
-                  Implementação pura de algoritmos de Machine Learning (Descida do Gradiente) e normalização matemática (Z-Score) usando C# sem bibliotecas externas.
-                </p>
+                <h3 className="text-2xl font-bold text-slate-100 mb-3">{t.projects.p3.title}</h3>
+                <p className="text-slate-400 leading-relaxed">{t.projects.p3.desc}</p>
               </div>
               <div className="mt-auto relative z-10">
                 <div className="flex flex-wrap gap-2 mb-8">
@@ -245,7 +324,7 @@ export default function Home() {
                   <span className="px-3 py-1 bg-slate-950 text-slate-300 text-xs rounded-full font-mono border border-slate-700">Algorithms</span>
                 </div>
                 <a href="https://github.com/SamuelAlexandrinoCodes/ProjetosAI" target="_blank" className="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-purple-400 transition-colors">
-                  <Github size={18}/> Ver Algoritmo
+                  <Github size={18}/> {t.projects.p3.btn}
                 </a>
               </div>
             </div>
