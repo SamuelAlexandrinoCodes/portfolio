@@ -5,7 +5,7 @@ import { ContentType } from '@/lib/content';
 
 export default function Hero({ t, lang }: { t: ContentType['hero'], lang: string }) {
   return (
-    <section className="max-w-6xl mx-auto px-6 pt-40 pb-20 md:pt-48">
+    <section className="max-w-6xl mx-auto px-6 pt-28 pb-20 md:pt-36">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         {/* TEXTO */}
         <div className="flex flex-col justify-center order-2 md:order-1">
